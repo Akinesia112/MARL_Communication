@@ -1,0 +1,226 @@
+<mujoco model="four_ants_single_scene">
+  <compiler inertiafromgeom="true" angle="degree"/>
+  <option timestep="0.005" gravity="0 0 -9.81" integrator="RK4" iterations="50"/>
+
+  <size nuserdata="2" nuser_jnt="1" />
+
+  <default>
+    <geom type="capsule" rgba="0.6 0.6 0.6 1" conaffinity="1" condim="3" friction="1 0.005 0.0001"/>
+    <joint armature="0.01" damping="2" limited="true"/>
+    <motor ctrllimited="true" ctrlrange="-1 1"/>
+  </default>
+
+  <asset>
+    <texture name="texplane" type="2d" builtin="checker" rgb1="0.9 0.9 0.9" rgb2="0.8 0.8 0.8" width="512" height="512"/>
+    <material name="MatGround" texture="texplane" specular="0" shininess="0.0" reflectance="0.0"/>
+  </asset>
+
+  <worldbody>
+    <geom name="ground" type="plane" material="MatGround" size="100 100 1" pos="0 0 0"/>
+
+    <!-- ######################## ant1 ######################## -->
+    <body name="ant1/torso" pos="-3 -3 0.4">
+      <freejoint name="ant1/root"/>
+      <!-- torso -->
+      <geom name="ant1/torso_geom" type="capsule" fromto="0 0 0.1  0 0 0.25" size="0.12"/>
+
+      <!-- FR hip -->
+      <body name="ant1/fr_hip" pos="0.15 -0.10 0.20">
+        <joint name="ant1/fr_hip_yaw" type="hinge" axis="0 0 1" range="-30 30"/>
+        <geom  name="ant1/fr_upper" type="capsule" fromto="0 0 0  0.15 0 0" size="0.05"/>
+        <body name="ant1/fr_knee" pos="0.15 0 0">
+          <joint name="ant1/fr_knee_pitch" type="hinge" axis="0 1 0" range="-60 60"/>
+          <geom  name="ant1/fr_lower" type="capsule" fromto="0 0 0  0.18 0 -0.18" size="0.04"/>
+        </body>
+      </body>
+
+      <!-- FL hip -->
+      <body name="ant1/fl_hip" pos="0.15 0.10 0.20">
+        <joint name="ant1/fl_hip_yaw" type="hinge" axis="0 0 1" range="-30 30"/>
+        <geom  name="ant1/fl_upper" type="capsule" fromto="0 0 0  0.15 0 0" size="0.05"/>
+        <body name="ant1/fl_knee" pos="0.15 0 0">
+          <joint name="ant1/fl_knee_pitch" type="hinge" axis="0 1 0" range="-60 60"/>
+          <geom  name="ant1/fl_lower" type="capsule" fromto="0 0 0  0.18 0 -0.18" size="0.04"/>
+        </body>
+      </body>
+
+      <!-- BR hip -->
+      <body name="ant1/br_hip" pos="-0.15 -0.10 0.20">
+        <joint name="ant1/br_hip_yaw" type="hinge" axis="0 0 1" range="-30 30"/>
+        <geom  name="ant1/br_upper" type="capsule" fromto="0 0 0  -0.15 0 0" size="0.05"/>
+        <body name="ant1/br_knee" pos="-0.15 0 0">
+          <joint name="ant1/br_knee_pitch" type="hinge" axis="0 1 0" range="-60 60"/>
+          <geom  name="ant1/br_lower" type="capsule" fromto="0 0 0  -0.18 0 -0.18" size="0.04"/>
+        </body>
+      </body>
+
+      <!-- BL hip -->
+      <body name="ant1/bl_hip" pos="-0.15 0.10 0.20">
+        <joint name="ant1/bl_hip_yaw" type="hinge" axis="0 0 1" range="-30 30"/>
+        <geom  name="ant1/bl_upper" type="capsule" fromto="0 0 0  -0.15 0 0" size="0.05"/>
+        <body name="ant1/bl_knee" pos="-0.15 0 0">
+          <joint name="ant1/bl_knee_pitch" type="hinge" axis="0 1 0" range="-60 60"/>
+          <geom  name="ant1/bl_lower" type="capsule" fromto="0 0 0  -0.18 0 -0.18" size="0.04"/>
+        </body>
+      </body>
+    </body>
+
+    <!-- ######################## ant2 ######################## -->
+    <body name="ant2/torso" pos="-3 3 0.4">
+      <freejoint name="ant2/root"/>
+      <geom name="ant2/torso_geom" type="capsule" fromto="0 0 0.1  0 0 0.25" size="0.12"/>
+      <body name="ant2/fr_hip" pos="0.15 -0.10 0.20">
+        <joint name="ant2/fr_hip_yaw" type="hinge" axis="0 0 1" range="-30 30"/>
+        <geom  name="ant2/fr_upper" type="capsule" fromto="0 0 0  0.15 0 0" size="0.05"/>
+        <body name="ant2/fr_knee" pos="0.15 0 0">
+          <joint name="ant2/fr_knee_pitch" type="hinge" axis="0 1 0" range="-60 60"/>
+          <geom  name="ant2/fr_lower" type="capsule" fromto="0 0 0  0.18 0 -0.18" size="0.04"/>
+        </body>
+      </body>
+      <body name="ant2/fl_hip" pos="0.15 0.10 0.20">
+        <joint name="ant2/fl_hip_yaw" type="hinge" axis="0 0 1" range="-30 30"/>
+        <geom  name="ant2/fl_upper" type="capsule" fromto="0 0 0  0.15 0 0" size="0.05"/>
+        <body name="ant2/fl_knee" pos="0.15 0 0">
+          <joint name="ant2/fl_knee_pitch" type="hinge" axis="0 1 0" range="-60 60"/>
+          <geom  name="ant2/fl_lower" type="capsule" fromto="0 0 0  0.18 0 -0.18" size="0.04"/>
+        </body>
+      </body>
+      <body name="ant2/br_hip" pos="-0.15 -0.10 0.20">
+        <joint name="ant2/br_hip_yaw" type="hinge" axis="0 0 1" range="-30 30"/>
+        <geom  name="ant2/br_upper" type="capsule" fromto="0 0 0  -0.15 0 0" size="0.05"/>
+        <body name="ant2/br_knee" pos="-0.15 0 0">
+          <joint name="ant2/br_knee_pitch" type="hinge" axis="0 1 0" range="-60 60"/>
+          <geom  name="ant2/br_lower" type="capsule" fromto="0 0 0  -0.18 0 -0.18" size="0.04"/>
+        </body>
+      </body>
+      <body name="ant2/bl_hip" pos="-0.15 0.10 0.20">
+        <joint name="ant2/bl_hip_yaw" type="hinge" axis="0 0 1" range="-30 30"/>
+        <geom  name="ant2/bl_upper" type="capsule" fromto="0 0 0  -0.15 0 0" size="0.05"/>
+        <body name="ant2/bl_knee" pos="-0.15 0 0">
+          <joint name="ant2/bl_knee_pitch" type="hinge" axis="0 1 0" range="-60 60"/>
+          <geom  name="ant2/bl_lower" type="capsule" fromto="0 0 0  -0.18 0 -0.18" size="0.04"/>
+        </body>
+      </body>
+    </body>
+
+    <!-- ######################## ant3 ######################## -->
+    <body name="ant3/torso" pos="3 -3 0.4">
+      <freejoint name="ant3/root"/>
+      <geom name="ant3/torso_geom" type="capsule" fromto="0 0 0.1  0 0 0.25" size="0.12"/>
+      <body name="ant3/fr_hip" pos="0.15 -0.10 0.20">
+        <joint name="ant3/fr_hip_yaw" type="hinge" axis="0 0 1" range="-30 30"/>
+        <geom  name="ant3/fr_upper" type="capsule" fromto="0 0 0  0.15 0 0" size="0.05"/>
+        <body name="ant3/fr_knee" pos="0.15 0 0">
+          <joint name="ant3/fr_knee_pitch" type="hinge" axis="0 1 0" range="-60 60"/>
+          <geom  name="ant3/fr_lower" type="capsule" fromto="0 0 0  0.18 0 -0.18" size="0.04"/>
+        </body>
+      </body>
+      <body name="ant3/fl_hip" pos="0.15 0.10 0.20">
+        <joint name="ant3/fl_hip_yaw" type="hinge" axis="0 0 1" range="-30 30"/>
+        <geom  name="ant3/fl_upper" type="capsule" fromto="0 0 0  0.15 0 0" size="0.05"/>
+        <body name="ant3/fl_knee" pos="0.15 0 0">
+          <joint name="ant3/fl_knee_pitch" type="hinge" axis="0 1 0" range="-60 60"/>
+          <geom  name="ant3/fl_lower" type="capsule" fromto="0 0 0  0.18 0 -0.18" size="0.04"/>
+        </body>
+      </body>
+      <body name="ant3/br_hip" pos="-0.15 -0.10 0.20">
+        <joint name="ant3/br_hip_yaw" type="hinge" axis="0 0 1" range="-30 30"/>
+        <geom  name="ant3/br_upper" type="capsule" fromto="0 0 0  -0.15 0 0" size="0.05"/>
+        <body name="ant3/br_knee" pos="-0.15 0 0">
+          <joint name="ant3/br_knee_pitch" type="hinge" axis="0 1 0" range="-60 60"/>
+          <geom  name="ant3/br_lower" type="capsule" fromto="0 0 0  -0.18 0 -0.18" size="0.04"/>
+        </body>
+      </body>
+      <body name="ant3/bl_hip" pos="-0.15 0.10 0.20">
+        <joint name="ant3/bl_hip_yaw" type="hinge" axis="0 0 1" range="-30 30"/>
+        <geom  name="ant3/bl_upper" type="capsule" fromto="0 0 0  -0.15 0 0" size="0.05"/>
+        <body name="ant3/bl_knee" pos="-0.15 0 0">
+          <joint name="ant3/bl_knee_pitch" type="hinge" axis="0 1 0" range="-60 60"/>
+          <geom  name="ant3/bl_lower" type="capsule" fromto="0 0 0  -0.18 0 -0.18" size="0.04"/>
+        </body>
+      </body>
+    </body>
+
+    <!-- ######################## ant4 ######################## -->
+    <body name="ant4/torso" pos="3 3 0.4">
+      <freejoint name="ant4/root"/>
+      <geom name="ant4/torso_geom" type="capsule" fromto="0 0 0.1  0 0 0.25" size="0.12"/>
+      <body name="ant4/fr_hip" pos="0.15 -0.10 0.20">
+        <joint name="ant4/fr_hip_yaw" type="hinge" axis="0 0 1" range="-30 30"/>
+        <geom  name="ant4/fr_upper" type="capsule" fromto="0 0 0  0.15 0 0" size="0.05"/>
+        <body name="ant4/fr_knee" pos="0.15 0 0">
+          <joint name="ant4/fr_knee_pitch" type="hinge" axis="0 1 0" range="-60 60"/>
+          <geom  name="ant4/fr_lower" type="capsule" fromto="0 0 0  0.18 0 -0.18" size="0.04"/>
+        </body>
+      </body>
+      <body name="ant4/fl_hip" pos="0.15 0.10 0.20">
+        <joint name="ant4/fl_hip_yaw" type="hinge" axis="0 0 1" range="-30 30"/>
+        <geom  name="ant4/fl_upper" type="capsule" fromto="0 0 0  0.15 0 0" size="0.05"/>
+        <body name="ant4/fl_knee" pos="0.15 0 0">
+          <joint name="ant4/fl_knee_pitch" type="hinge" axis="0 1 0" range="-60 60"/>
+          <geom  name="ant4/fl_lower" type="capsule" fromto="0 0 0  0.18 0 -0.18" size="0.04"/>
+        </body>
+      </body>
+      <body name="ant4/br_hip" pos="-0.15 -0.10 0.20">
+        <joint name="ant4/br_hip_yaw" type="hinge" axis="0 0 1" range="-30 30"/>
+        <geom  name="ant4/br_upper" type="capsule" fromto="0 0 0  -0.15 0 0" size="0.05"/>
+        <body name="ant4/br_knee" pos="-0.15 0 0">
+          <joint name="ant4/br_knee_pitch" type="hinge" axis="0 1 0" range="-60 60"/>
+          <geom  name="ant4/br_lower" type="capsule" fromto="0 0 0  -0.18 0 -0.18" size="0.04"/>
+        </body>
+      </body>
+      <body name="ant4/bl_hip" pos="-0.15 0.10 0.20">
+        <joint name="ant4/bl_hip_yaw" type="hinge" axis="0 0 1" range="-30 30"/>
+        <geom  name="ant4/bl_upper" type="capsule" fromto="0 0 0  -0.15 0 0" size="0.05"/>
+        <body name="ant4/bl_knee" pos="-0.15 0 0">
+          <joint name="ant4/bl_knee_pitch" type="hinge" axis="0 1 0" range="-60 60"/>
+          <geom  name="ant4/bl_lower" type="capsule" fromto="0 0 0  -0.18 0 -0.18" size="0.04"/>
+        </body>
+      </body>
+    </body>
+
+  </worldbody>
+
+  <actuator>
+    <!-- 每隻 8 個馬達，共 32 個 -->
+    <!-- ant1 -->
+    <motor name="ant1/m_fr_hip_yaw" joint="ant1/fr_hip_yaw" gear="120"/>
+    <motor name="ant1/m_fr_knee"    joint="ant1/fr_knee_pitch" gear="120"/>
+    <motor name="ant1/m_fl_hip_yaw" joint="ant1/fl_hip_yaw" gear="120"/>
+    <motor name="ant1/m_fl_knee"    joint="ant1/fl_knee_pitch" gear="120"/>
+    <motor name="ant1/m_br_hip_yaw" joint="ant1/br_hip_yaw" gear="120"/>
+    <motor name="ant1/m_br_knee"    joint="ant1/br_knee_pitch" gear="120"/>
+    <motor name="ant1/m_bl_hip_yaw" joint="ant1/bl_hip_yaw" gear="120"/>
+    <motor name="ant1/m_bl_knee"    joint="ant1/bl_knee_pitch" gear="120"/>
+
+    <!-- ant2 -->
+    <motor name="ant2/m_fr_hip_yaw" joint="ant2/fr_hip_yaw" gear="120"/>
+    <motor name="ant2/m_fr_knee"    joint="ant2/fr_knee_pitch" gear="120"/>
+    <motor name="ant2/m_fl_hip_yaw" joint="ant2/fl_hip_yaw" gear="120"/>
+    <motor name="ant2/m_fl_knee"    joint="ant2/fl_knee_pitch" gear="120"/>
+    <motor name="ant2/m_br_hip_yaw" joint="ant2/br_hip_yaw" gear="120"/>
+    <motor name="ant2/m_br_knee"    joint="ant2/br_knee_pitch" gear="120"/>
+    <motor name="ant2/m_bl_hip_yaw" joint="ant2/bl_hip_yaw" gear="120"/>
+    <motor name="ant2/m_bl_knee"    joint="ant2/bl_knee_pitch" gear="120"/>
+
+    <!-- ant3 -->
+    <motor name="ant3/m_fr_hip_yaw" joint="ant3/fr_hip_yaw" gear="120"/>
+    <motor name="ant3/m_fr_knee"    joint="ant3/fr_knee_pitch" gear="120"/>
+    <motor name="ant3/m_fl_hip_yaw" joint="ant3/fl_hip_yaw" gear="120"/>
+    <motor name="ant3/m_fl_knee"    joint="ant3/fl_knee_pitch" gear="120"/>
+    <motor name="ant3/m_br_hip_yaw" joint="ant3/br_hip_yaw" gear="120"/>
+    <motor name="ant3/m_br_knee"    joint="ant3/br_knee_pitch" gear="120"/>
+    <motor name="ant3/m_bl_hip_yaw" joint="ant3/bl_hip_yaw" gear="120"/>
+    <motor name="ant3/m_bl_knee"    joint="ant3/bl_knee_pitch" gear="120"/>
+
+    <!-- ant4 -->
+    <motor name="ant4/m_fr_hip_yaw" joint="ant4/fr_hip_yaw" gear="120"/>
+    <motor name="ant4/m_fr_knee"    joint="ant4/fr_knee_pitch" gear="120"/>
+    <motor name="ant4/m_fl_hip_yaw" joint="ant4/fl_hip_yaw" gear="120"/>
+    <motor name="ant4/m_fl_knee"    joint="ant4/fl_knee_pitch" gear="120"/>
+    <motor name="ant4/m_br_hip_yaw" joint="ant4/br_hip_yaw" gear="120"/>
+    <motor name="ant4/m_br_knee"    joint="ant4/br_knee_pitch" gear="120"/>
+    <motor name="ant4/m_bl_hip_yaw" joint="ant4/bl_hip_yaw" gear="120"/>
+    <motor name="ant4/m_bl_knee"    joint="ant4/bl_knee_pitch" gear="120"/>
+  </actuator>
+</mujoco>
