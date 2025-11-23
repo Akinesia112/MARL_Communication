@@ -37,8 +37,6 @@ pip install gymnasium-robotics
 pip install pettingzoo
 pip install torch
 
-python test_env.py <- 用這個指令測試MaMuJoCo是否正常開啟
-
 # 訓練注意力通訊模型
 python train_with_attention.py
 
@@ -46,6 +44,7 @@ python train_with_attention.py
 python eval_policy.py
 
 # 測試環境配置
+python test_env.py
 python test_different_configs.py
 ```
 
