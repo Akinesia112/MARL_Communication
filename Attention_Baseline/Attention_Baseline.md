@@ -33,6 +33,12 @@ Multi-Agent Reinforcement Learning with Attention Baseline實作(基於MaMuJoCo�
 ## 快速開始
 
 ```bash
+pip install gymnasium-robotics
+pip install pettingzoo
+pip install torch
+
+python test_env.py <- 用這個指令測試
+
 # 訓練注意力通訊模型
 python train_with_attention.py
 
