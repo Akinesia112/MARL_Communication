@@ -1,8 +1,3 @@
----
-title: MARL Communication with Attention Baseline
-
----
-
 # MARL Communication with Attention Baseline
 
 Multi-Agent Reinforcement Learning with Attention Baseline實作(基於MaMuJoCo環境)。
