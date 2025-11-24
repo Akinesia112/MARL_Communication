@@ -190,11 +190,6 @@ Iter 1: Avg=-110.56, Max=-95.12
 
 ```python
 # 修改 train_with_pde.py 最後一行
-trainer.train(
-    n_iterations=1000, 
-    save_freq=50, 
-    resume_from="checkpoints_pde/model_iter_xxx.pt"
-)
 ```
 
 ### 視覺化 PDE 場
