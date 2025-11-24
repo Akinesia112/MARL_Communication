@@ -192,7 +192,7 @@ Iter 1: Avg=-110.56, Max=-95.12
 # 修改 train_with_pde.py 最後一行
 ```
 
-### 視覺化 PDE 場
+### 視覺化 PDE 場 (目前不確定實際作用為何，可能還要修改)
 
 ```python
 if (iteration + 1) % save_freq == 0:
