@@ -1,0 +1,12 @@
+[MADDPG] Episode 1/1000 | AvgRew=165.90 | MaxRew=165.90 | Buffer=500 | sigma=0.200
+✓ MADDPG actors saved to: checkpoints_maddpg/maddpg_best.pt
+Traceback (most recent call last):
+  File "/project/g/akinesia112/MARL/MARL_Communication/Attention_Baseline/train_maddpg_attention.py", line 450, in <module>
+    trainer.train(n_episodes=1000, updates_per_step=1)
+  File "/project/g/akinesia112/MARL/MARL_Communication/Attention_Baseline/train_maddpg_attention.py", line 388, in train
+    self.learn()
+  File "/project/g/akinesia112/MARL/MARL_Communication/Attention_Baseline/train_maddpg_attention.py", line 326, in learn
+    self.soft_update(self.critics_target[agent], self.critics[agent], self.tau)
+  File "/project/g/akinesia112/MARL/MARL_Communication/Attention_Baseline/train_maddpg_attention.py", line 243, in soft_update
+    tgt_param.data.copy_(tau * src_param.data + (1.0 - tau) * tgt_param.data)
+KeyboardInterrupt
