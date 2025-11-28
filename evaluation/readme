@@ -1,107 +1,112 @@
-實驗結果（Experimental Results）
+# 📘 Experimental Results
 
-以下說明本研究所有圖表的意義，並整理各項實驗如何支持 PDE Communication 的可解釋性、穩定性與魯棒性。
+This document explains each figure in our experiments and shows how the evidence supports the advantages of PDE-based communication in interpretability, robustness, and filtering.
 
-圖 1 — 場的 Hodge 分解（Gradient / Curl 結構）
+---
 
-目的： 分析 PDE 場內部的訊息結構，判斷導航成分與協調成分比例。
+## **Figure 1 — Hodge Decomposition (Gradient / Curl Components)**
 
-Gradient（藍色）：
-數值約 0.02–0.07、皆為正 → 代表「導航指令」，指示前進方向。
+**Purpose:** Analyze the internal structure of the PDE communication field.
 
-Curl（橘色）：
-約 −0.04–0.0 → 旋轉場極弱 → 任務中「協調」需求低。
+- **Gradient (blue):**  
+  Values around 0.02–0.07, consistently positive → represents *navigation* signals (direction guidance).
 
-結論：
-PDE 場的結構清楚反映此任務的本質是 以導航為主，協調成分較少。
-（與注意力模型相比，PDE 能量場有明確的空間含義）
+- **Curl (orange):**  
+  Around −0.04–0.0 → weak rotational structure → low *coordination* demand in this task.
 
-圖 2 — 噪聲魯棒性（修正版結果）
+**Conclusion:**  
+The PDE field clearly reflects a **navigation-dominant** task.  
+Unlike attention weights, the PDE structure is spatially meaningful and interpretable.
 
-目的： 比較 PDE 與 Attention 在不同高斯噪聲強度下的表現下降速度。
+---
 
-Noise	PDE	Attention	PDE 優勢
-0.0	670	395	+69%
-0.1	650	485	+34%
-0.2	540	470	+15%
-0.3	380	320	+19%
-0.5	270	300	Attention +10%
+## **Figure 2 — Noise Robustness (Corrected Results)**
 
-結果重點：
+**Purpose:** Compare the performance drop of PDE vs. Attention under increasing Gaussian noise.
 
-✅ 低～中噪聲（0–0.3）：PDE 明顯領先（+15%～+69%）
+| Noise | PDE | Attention | PDE Advantage |
+|-------|-----|-----------|----------------|
+| 0.0   | 670 | 395       | **+69%** |
+| 0.1   | 650 | 485       | **+34%** |
+| 0.2   | 540 | 470       | **+15%** |
+| 0.3   | 380 | 320       | **+19%** |
+| 0.5   | 270 | 300       | Attention +10% |
 
-⚠️ 高噪聲（0.5）：兩者都很差，Attention 略高
+**Key Findings:**
+- **Low–moderate noise (0.0–0.3): PDE is clearly better (+15–69%).**
+- **Extreme noise (0.5): Both models collapse; Attention slightly ahead.**
 
-結論：
-PDE 在「現實可預期」的噪聲環境下都更穩定，
-極高噪聲則會破壞兩者的訊息，使 attention 小幅領先。
+**Conclusion:**  
+PDE communication is robust in realistic noise regimes.  
+Only extreme noise (rare in real tasks) flips the advantage.
 
-圖 3 — 遮擋（Occlusion）魯棒性
+---
 
-目的： 模擬部分可觀性（Partial Observability），測試資訊遮蔽時的表現。
+## **Figure 3 — Occlusion Robustness (Partial Observability)**
 
-Occlusion	PDE	Attention	PDE 優勢
-0.0	680	475	+43%
-0.1	350	260	+35%
-0.2	250	225	+11%
-0.3–0.5	大致持平	大致持平	小幅領先
+**Purpose:** Evaluate resilience under partial occlusion / missing observations.
 
-結論：
-PDE 的擴散（diffusion）機制能自然「補洞」，
-因此在遮擋情況下 始終比 Attention 更穩定，甚至在低遮擋時領先超過 35–43%。
-這是 PDE 在部分可觀性下最大的優勢。
+| Occlusion | PDE | Attention | PDE Advantage |
+|-----------|-----|-----------|----------------|
+| 0.0       | 680 | 475       | **+43%** |
+| 0.1       | 350 | 260       | **+35%** |
+| 0.2       | 250 | 225       | **+11%** |
+| 0.3–0.5   | similar | similar | PDE slightly better |
 
-圖 4 — 場的訊號雜訊比（SNR）變化
+**Conclusion:**  
+The PDE diffusion mechanism naturally *fills in missing information*,  
+making PDE **significantly more robust** than attention (up to +43%).  
+This strongly supports PDE communication under partial observability.
 
-目的： 量化 PDE 場的「天然濾波效果」。
+---
 
-Noise	場 SNR
-0.0	55 dB（極乾淨）
-0.1	20 dB
-0.5	6.5 dB
+## **Figure 4 — Field Signal-to-Noise Ratio (SNR)**
 
-解讀：
+**Purpose:** Quantify the PDE field’s inherent low-pass filtering effect.
 
-PDE 場本身具有低通濾波性質
+| Noise | Field SNR |
+|--------|-----------|
+| 0.0    | **55 dB** |
+| 0.1    | 20 dB |
+| 0.5    | 6.5 dB |
 
-高頻噪聲會在 PDE 演化過程中被抑制
+**Interpretation:**
+- PDE fields naturally suppress high-frequency noise.
+- Even at noise=0.5, the field remains at 6.5 dB → still usable.
 
-即使 noise=0.5，SNR 仍保持 6.5 dB → 場仍然可用
+**Conclusion:**  
+Spatial diffusion gives PDE communication a **built-in denoising mechanism**  
+that attention does not possess.
 
-結論：
-PDE 的 diffusion 結構提供天然的「抗噪濾波」，
-是 attention 無法具備的物理特性。
+---
 
-圖 5–7 — 可視覺化比較（Attention vs PDE Field）
+## **Figures 5–7 — Interpretability: PDE Field vs. Attention**
 
-目的： 展示可解釋性的差異。
+**Purpose:** Compare visualization quality and interpretability.
 
-Attention 權重
+### **Attention Weights**
+- Only two bars (two agents)
+- Often collapses to a single dominant weight (~1.0)
+- Abstract, difficult to understand *how* information flows
 
-只有兩條 bar（兩個 agent）
+### **PDE Field**
+- 8×8 heatmap
+- Energy grows and diffuses over time (step 0 → 50 → 99)
+- Bright spots correspond to true agent locations
+- Clearly shows *where* and *how* information propagates
 
-權重大多固定在某一 agent 上（~1.0）
+**Conclusion:**  
+PDE communication is **highly interpretable**,  
+providing spatial structure and temporal evolution that attention cannot show.
 
-含義抽象、難直接觀察決策原因
+---
 
-PDE 能量場
+# 📌 Overall Findings (Summary Table)
 
-8×8 熱力圖
-
-能量隨時間（step 0 → 50 → 99）逐漸擴散
-
-亮點對應 agent 的真實位置
-
-可以直觀看出訊息流動與場演化
-
-結論：
-PDE 在空間結構上具備強可解釋性，視覺化清晰且直覺。
-
-📌 最終結論（整合所有圖表）
-假設	結果	支持程度
-可解釋性	PDE 是完整能量場；Attention 抽象權重	⭐⭐⭐⭐
-部分可觀性（遮擋）	PDE 贏 35–43%	⭐⭐⭐⭐
-低～中噪聲魯棒性	PDE 贏 15–69%	⭐⭐⭐⭐
-高噪聲（0.5）	Attention 略好（但兩者皆差）	⭐
-濾波效果	PDE 場 SNR：55→6.5 dB	⭐⭐⭐
+| Hypothesis | Result | Evidence Strength |
+|-----------|---------|-------------------|
+| Interpretability | PDE field is clear; attention is abstract | ⭐⭐⭐⭐ |
+| Partial Observability | PDE outperforms by **35–43%** | ⭐⭐⭐⭐ |
+| Low–Moderate Noise Robustness | PDE +15–69% | ⭐⭐⭐⭐ |
+| Extreme Noise Robustness | Attention slightly better | ⭐ |
+| Filtering Effect | PDE SNR: 55 → 6.5 dB | ⭐⭐⭐ |
