@@ -9,6 +9,10 @@ This document explains each figure in our experiments and shows how the evidence
 **Purpose:** Compare visualization quality and interpretability.
 
 ![image](evaluation_results/exp1_visualization_step0.png)
+
+![image](evaluation_results/exp1_visualization_step50.png)
+
+![image](evaluation_results/exp1_visualization_step99.png)
 ### **Attention Weights**
 - Only two bars (two agents)
 - Often collapses to a single dominant weight (~1.0)
@@ -29,6 +33,7 @@ providing spatial structure and temporal evolution that attention cannot show.
 ## **Experiment 2 — Hodge Decomposition (Gradient / Curl Components)**
 
 **Purpose:** Analyze the internal structure of the PDE communication field.
+![image](evaluation_results/exp2_hodege_decomposition.png)
 
 - **Gradient (blue):**  
   Values around 0.02–0.07, consistently positive → represents *navigation* signals (direction guidance).
@@ -45,6 +50,8 @@ Unlike attention weights, the PDE structure is spatially meaningful and interpre
 ## **Experiment 5 — Noise Robustness (Corrected Results)**
 
 **Purpose:** Compare the performance drop of PDE vs. Attention under increasing Gaussian noise.
+
+![image](evaluation_results/exp5_noise_robustness.png)
 
 | Noise | PDE | Attention | PDE Advantage |
 |-------|-----|-----------|----------------|
@@ -68,6 +75,8 @@ Only extreme noise (rare in real tasks) flips the advantage.
 
 **Purpose:** Evaluate resilience under partial occlusion / missing observations.
 
+![image](evaluation_results/exp6_occlusion_robustness.png)
+
 | Occlusion | PDE | Attention | PDE Advantage |
 |-----------|-----|-----------|----------------|
 | 0.0       | 680 | 475       | **+43%** |
@@ -85,6 +94,8 @@ This strongly supports PDE communication under partial observability.
 ## **Experiment 7 — Field Signal-to-Noise Ratio (SNR)**
 
 **Purpose:** Quantify the PDE field’s inherent low-pass filtering effect.
+
+![image](evaluation_results/exp7_field_snr.png)
 
 | Noise | Field SNR |
 |--------|-----------|
