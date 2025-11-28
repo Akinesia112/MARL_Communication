@@ -34,7 +34,7 @@ providing spatial structure and temporal evolution that attention cannot show.
 
 **Purpose:** Analyze the internal structure of the PDE communication field.
 
-![image](evaluation_results/exp2_hodege_decomposition.png)
+![image](evaluation_results/exp2_hodge_decomposition.png)
 
 - **Gradient (blue):**  
   Values around 0.02–0.07, consistently positive → represents *navigation* signals (direction guidance).
