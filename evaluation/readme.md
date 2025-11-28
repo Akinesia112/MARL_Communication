@@ -4,7 +4,28 @@ This document explains each figure in our experiments and shows how the evidence
 
 ---
 
-## **Figure 1 — Hodge Decomposition (Gradient / Curl Components)**
+## **Experiment 1 — Interpretability: PDE Field vs. Attention**
+
+**Purpose:** Compare visualization quality and interpretability.
+
+### **Attention Weights**
+- Only two bars (two agents)
+- Often collapses to a single dominant weight (~1.0)
+- Abstract, difficult to understand *how* information flows
+
+### **PDE Field**
+- 8×8 heatmap
+- Energy grows and diffuses over time (step 0 → 50 → 99)
+- Bright spots correspond to true agent locations
+- Clearly shows *where* and *how* information propagates
+
+**Conclusion:**  
+PDE communication is **highly interpretable**,  
+providing spatial structure and temporal evolution that attention cannot show.
+
+---
+
+## **Experiment 2 — Hodge Decomposition (Gradient / Curl Components)**
 
 **Purpose:** Analyze the internal structure of the PDE communication field.
 
@@ -20,7 +41,7 @@ Unlike attention weights, the PDE structure is spatially meaningful and interpre
 
 ---
 
-## **Figure 2 — Noise Robustness (Corrected Results)**
+## **Experiment 5 — Noise Robustness (Corrected Results)**
 
 **Purpose:** Compare the performance drop of PDE vs. Attention under increasing Gaussian noise.
 
@@ -42,7 +63,7 @@ Only extreme noise (rare in real tasks) flips the advantage.
 
 ---
 
-## **Figure 3 — Occlusion Robustness (Partial Observability)**
+## **Experiment 6 — Occlusion Robustness (Partial Observability)**
 
 **Purpose:** Evaluate resilience under partial occlusion / missing observations.
 
@@ -60,7 +81,7 @@ This strongly supports PDE communication under partial observability.
 
 ---
 
-## **Figure 4 — Field Signal-to-Noise Ratio (SNR)**
+## **Experiment 7 — Field Signal-to-Noise Ratio (SNR)**
 
 **Purpose:** Quantify the PDE field’s inherent low-pass filtering effect.
 
@@ -77,27 +98,6 @@ This strongly supports PDE communication under partial observability.
 **Conclusion:**  
 Spatial diffusion gives PDE communication a **built-in denoising mechanism**  
 that attention does not possess.
-
----
-
-## **Figures 5–7 — Interpretability: PDE Field vs. Attention**
-
-**Purpose:** Compare visualization quality and interpretability.
-
-### **Attention Weights**
-- Only two bars (two agents)
-- Often collapses to a single dominant weight (~1.0)
-- Abstract, difficult to understand *how* information flows
-
-### **PDE Field**
-- 8×8 heatmap
-- Energy grows and diffuses over time (step 0 → 50 → 99)
-- Bright spots correspond to true agent locations
-- Clearly shows *where* and *how* information propagates
-
-**Conclusion:**  
-PDE communication is **highly interpretable**,  
-providing spatial structure and temporal evolution that attention cannot show.
 
 ---
 
