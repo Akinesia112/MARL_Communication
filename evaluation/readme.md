@@ -33,6 +33,7 @@ providing spatial structure and temporal evolution that attention cannot show.
 ## **Experiment 2 — Hodge Decomposition (Gradient / Curl Components)**
 
 **Purpose:** Analyze the internal structure of the PDE communication field.
+
 ![image](evaluation_results/exp2_hodege_decomposition.png)
 
 - **Gradient (blue):**  
@@ -82,7 +83,7 @@ Only extreme noise (rare in real tasks) flips the advantage.
 | 0.0       | 680 | 475       | **+43%** |
 | 0.1       | 350 | 260       | **+35%** |
 | 0.2       | 250 | 225       | **+11%** |
-| 0.3–0.5   | similar | similar | PDE slightly better |
+| 0.3–0.5   | similar | similar | ----- |
 
 **Conclusion:**  
 The PDE diffusion mechanism naturally *fills in missing information*,  
