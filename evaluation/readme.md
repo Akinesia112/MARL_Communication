@@ -7,7 +7,7 @@ This document explains each figure in our experiments and shows how the evidence
 ## **Experiment 1 — Interpretability: PDE Field vs. Attention**
 
 **Purpose:** Compare visualization quality and interpretability.
-
+![image](exp1_visualization_step0.png)
 ### **Attention Weights**
 - Only two bars (two agents)
 - Often collapses to a single dominant weight (~1.0)
