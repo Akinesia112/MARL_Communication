@@ -20,10 +20,10 @@ class PolicyWithPDE(nn.Module):
         )
 
         #self.comm = PDECommunication_XXX(...) 切換模式
-        self.comm = PDECommunication_NoDiffusion( 
+        #self.comm = PDECommunication_NoDiffusion( 
         #self.comm = PDECommunication_NoReaction(
         #self.comm = PDECommunication_NoPDE(nn.Module):
-        #self.comm = PDECommunication(
+        self.comm = PDECommunication(
             feature_dim=hidden_dim, 
             grid_size=8,
             n_steps=2,
