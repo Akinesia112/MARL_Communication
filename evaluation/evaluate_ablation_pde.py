@@ -174,7 +174,7 @@ class AblationEvaluator:
         
         print("\n✓ 圖表已保存: evaluation_results/ablation_study.png")
     
-    def compare_with_noise(self, noise_levels=[0.0, 0.2, 0.4]):
+    def compare_with_noise(self, noise_levels=[0.0, 0.1, 0.2, 0.3]):
         """額外測試：不同噪音下的 ablation 比較"""
         print("\n[額外] Ablation + Noise Robustness...")
         
@@ -211,6 +211,106 @@ class AblationEvaluator:
         plt.close()
         
         print("\n✓ 噪音測試完成 → evaluation_results/ablation_noise.png")
+    
+    def analyze_hodge_decomposition(self, n_episodes=5):
+        """Hodge 分解：驗證各版本的場特性"""
+        print("\n[額外] Hodge Decomposition 分析...")
+        
+        results = {}
+        
+        for name, policies in self.model_configs.items():
+            if policies is None or name == 'No PDE (MLP)':
+                continue  # MLP 沒有場
+            
+            print(f"\n  分析 {name}...")
+            
+            gradient_energies = []
+            curl_energies = []
+            
+            for ep in range(n_episodes):
+                obs_dict, _ = self.env.reset()
+                
+                for step in range(100):
+                    all_obs = torch.FloatTensor(
+                        np.array([obs_dict[agent] for agent in self.agents])
+                    ).unsqueeze(0).to(self.device)
+                    
+                    with torch.no_grad():
+                        obs = torch.FloatTensor(obs_dict[self.agents[0]]).unsqueeze(0).to(self.device)
+                        _, field = policies[self.agents[0]](obs, all_obs, agent_idx=0)
+                        
+                        if field is None:
+                            break
+                        
+                        # Hodge 分解
+                        grad_x = field[:, :, 1:, :] - field[:, :, :-1, :]
+                        grad_y = field[:, :, :, 1:] - field[:, :, :, :-1]
+                        
+                        gradient_energy = (grad_x ** 2).mean() + (grad_y ** 2).mean()
+                        curl_energy = (field ** 2).mean() - gradient_energy
+                        
+                        gradient_energies.append(gradient_energy.item())
+                        curl_energies.append(curl_energy.item())
+                    
+                    actions = {agent: self.env.action_space(agent).sample() for agent in self.agents}
+                    obs_dict, _, terms, truncs, _ = self.env.step(actions)
+                    if any(terms.values()) or any(truncs.values()):
+                        break
+            
+            results[name] = {
+                'gradient': np.mean(gradient_energies),
+                'curl': np.mean(curl_energies),
+                'ratio': np.mean(gradient_energies) / (np.mean(curl_energies) + 1e-8)
+            }
+            
+            print(f"    Gradient: {results[name]['gradient']:.4f}")
+            print(f"    Curl: {results[name]['curl']:.4f}")
+            print(f"    Ratio (Grad/Curl): {results[name]['ratio']:.2f}")
+        
+        # 繪圖
+        if results:
+            fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+            
+            names = list(results.keys())
+            gradients = [results[n]['gradient'] for n in names]
+            curls = [results[n]['curl'] for n in names]
+            
+            # 左圖：能量對比
+            x = np.arange(len(names))
+            width = 0.35
+            axes[0].bar(x - width/2, gradients, width, label='Gradient (Navigation)', alpha=0.8)
+            axes[0].bar(x + width/2, curls, width, label='Curl (Coordination)', alpha=0.8)
+            axes[0].set_xlabel('Model Variant', fontsize=12)
+            axes[0].set_ylabel('Energy', fontsize=12)
+            axes[0].set_title('Hodge Decomposition: Component Energies', fontsize=13, fontweight='bold')
+            axes[0].set_xticks(x)
+            axes[0].set_xticklabels(names, rotation=15, ha='right')
+            axes[0].legend()
+            axes[0].grid(alpha=0.3, axis='y')
+            
+            # 右圖：比例
+            ratios = [results[n]['ratio'] for n in names]
+            axes[1].bar(range(len(names)), ratios, color='tab:purple', alpha=0.8)
+            axes[1].set_xlabel('Model Variant', fontsize=12)
+            axes[1].set_ylabel('Gradient / Curl Ratio', fontsize=12)
+            axes[1].set_title('Navigation vs Coordination Balance', fontsize=13, fontweight='bold')
+            axes[1].set_xticks(range(len(names)))
+            axes[1].set_xticklabels(names, rotation=15, ha='right')
+            axes[1].grid(alpha=0.3, axis='y')
+            axes[1].axhline(y=1.0, color='r', linestyle='--', alpha=0.5, label='Balance')
+            axes[1].legend()
+            
+            plt.tight_layout()
+            plt.savefig('evaluation_results/ablation_hodge.png', dpi=150, bbox_inches='tight')
+            plt.close()
+            
+            print("\n✓ Hodge 分析完成 → evaluation_results/ablation_hodge.png")
+            
+            # 保存數據
+            with open('evaluation_results/ablation_hodge_results.json', 'w') as f:
+                json.dump(results, f, indent=2)
+        
+        return results
     
     def _evaluate_with_noise(self, policies, noise_level, max_steps=200):
         """帶噪音的評估"""
@@ -262,10 +362,15 @@ if __name__ == "__main__":
     # 執行 ablation study
     results = evaluator.run_ablation_study()
     
-    # 額外測試：噪音環境下的比較
+    # 額外測試 1：噪音環境下的比較
     evaluator.compare_with_noise()
     
+    # 額外測試 2：Hodge 分解分析
+    evaluator.analyze_hodge_decomposition()
+    
     print("\n結果檔案：")
-    print("  - evaluation_results/ablation_study.png")
-    print("  - evaluation_results/ablation_noise.png")
+    print("  - evaluation_results/ablation_study.png (主要結果)")
+    print("  - evaluation_results/ablation_noise.png (噪音測試)")
+    print("  - evaluation_results/ablation_hodge.png (Hodge 分解)")
     print("  - evaluation_results/ablation_results.json")
+    print("  - evaluation_results/ablation_hodge_results.json")
