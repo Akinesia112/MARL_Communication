@@ -13,9 +13,12 @@
 ## 檔案架構
 
 ```
-pde_comm.py           # PDE 通訊層（核心）
+pde_comm.py           # PDE 通訊層（核心 + Ablation測試）
 policy_with_pde.py    # 整合 PDE 的策略網路
-train_with_pde.py     # PPO 訓練流程
+train_with_pde.py     # PPO 訓練流程 (2x4)
+train_with_pde.py     # 訓練 4x2 agents
+evaluate_pde.py       # 評估實驗 1,2,5,6,7
+evaluate_scalability.py  # 評估實驗 3,4
 ```
 
 ---
@@ -74,7 +77,26 @@ class PDECommunication(nn.Module):
 | `field_to_agents`         | 從 PDE 場感知訊息（局部平均）            |
 | `forward`                 | 完整 encode 過程                 |
 
+### Ablation 版本
+```python
+# Ablation 1: 移除擴散項（只有 reaction）
+class PDECommunication_NoDiffusion(PDECommunication):
+    def reaction_diffusion_step(self, field):
+        reaction = self.reaction_coef * field * (1 - field.tanh())
+        return field + self.dt * reaction
 
+# Ablation 2: 移除反應項（只有 diffusion）
+class PDECommunication_NoReaction(PDECommunication):
+    def reaction_diffusion_step(self, field):
+        diffusion = self.diffusion_coef * laplacian
+        return field + self.dt * diffusion
+
+# Ablation 3: 移除 PDE（純 MLP 聚合）
+class PDECommunication_NoPDE(nn.Module):
+    def forward(self, agent_idx, all_features):
+        comm_message = all_features.mean(dim=1)  # 簡單平均
+        return comm_message, None
+```
 
 ---
 
@@ -141,6 +163,23 @@ comm_message = all_messages[:, agent_idx]
 4. save_checkpoint (每 50 iter)
    保存 policies, critics, optimizers
 ```
+```bash
+# 訓練 Full PDE (2x4)
+python train_with_pde.py
+
+# 訓練 Ablation 1: No Diffusion
+# 修改 policy_with_pde.py 的 self.comm = PDECommunication_NoDiffusion(...)
+python train_with_pde.py
+
+# 訓練 Ablation 2: No Reaction
+# 修改 policy_with_pde.py 的 self.comm = PDECommunication_NoReaction(...)
+python train_with_pde.py
+
+# 訓練 Ablation 3: No PDE
+# 修改 policy_with_pde.py 的 self.comm = PDECommunication_NoPDE(...)
+python train_with_pde.py
+```
+
 
 ### 關鍵設計
 
@@ -177,6 +216,9 @@ checkpoint = {
 ```bash
 python train_with_pde.py
 ```
+```bash
+python train_with_pde42.py
+```
 
 輸出：
 ```
@@ -190,9 +232,14 @@ Iter 1: Avg=-110.56, Max=-95.12
 
 ```python
 # 修改 train_with_pde.py 最後一行
+trainer.train(
+    n_iterations=1000, 
+    save_freq=50, 
+    resume_from="checkpoints_pde/model_iter_xxx.pt"
+)
 ```
 
-### 視覺化 PDE 場 (目前不確定實際作用為何，可能還要修改)
+### 視覺化 PDE 場
 
 ```python
 if (iteration + 1) % save_freq == 0:
@@ -215,7 +262,7 @@ if (iteration + 1) % save_freq == 0:
 
 | 特性        | Attention | PDE Communication |
 | --------- | --------- | ----------------- |
-| 訊息流動      | QKV     | 空間擴散              |
+| 訊息流動      | QK 全局     | 空間擴散              |
 | 可解釋性      | 權重矩陣      | 2D 場熱圖            |
 | 模型偏好      | 任意拓樸      | (更自然) 空間任務        |
 | 計算量       | O(N²)     | O(HW)             |
@@ -237,4 +284,3 @@ if (iteration + 1) % save_freq == 0:
 
 
 ---
-

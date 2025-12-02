@@ -114,6 +114,39 @@ class PDECommunication(nn.Module):
         
         return comm_message, field
 
+class PDECommunication_NoDiffusion(PDECommunication):
+    """Ablation: 只有 reaction，沒有 diffusion"""
+    def reaction_diffusion_step(self, field):
+        # diffusion = 0  # 移除擴散項
+        reaction = self.reaction_coef * field * (1 - field.tanh())
+        field_next = field + self.dt * reaction
+        return field_next.clamp(-10, 10)
+
+class PDECommunication_NoReaction(PDECommunication):
+    """Ablation: 只有 diffusion，沒有 reaction"""
+    def reaction_diffusion_step(self, field):
+        laplacian = F.conv2d(field, self.lap_kernel, padding=1, groups=self.feature_dim)
+        diffusion = self.diffusion_coef * laplacian
+        # reaction = 0  # 移除反應項
+        field_next = field + self.dt * diffusion
+        return field_next.clamp(-10, 10)
+
+class PDECommunication_NoPDE(nn.Module):
+    """Ablation: 用 MLP 直接聚合，無 PDE"""
+    def __init__(self, feature_dim, **kwargs):
+        super().__init__()
+        self.mlp = nn.Sequential(
+            nn.Linear(feature_dim, feature_dim),
+            nn.ReLU(),
+            nn.Linear(feature_dim, feature_dim)
+        )
+    
+    def forward(self, agent_idx, all_features):
+        # 簡單平均其他 agents
+        comm_message = all_features.mean(dim=1)  # [B, feat]
+        return comm_message, None  # 無 field
+
+
 
 # ============ 測試程式碼 ============
 if __name__ == "__main__":

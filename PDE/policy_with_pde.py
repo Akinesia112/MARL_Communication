@@ -1,7 +1,12 @@
 import torch
 import torch.nn as nn
 from torch.distributions import Normal
-from pde_comm import PDECommunication
+from pde_comm import (
+    PDECommunication, 
+    PDECommunication_NoDiffusion, 
+    PDECommunication_NoReaction, 
+    PDECommunication_NoPDE
+)
 
 # policy_with_pde.py
 class PolicyWithPDE(nn.Module):
@@ -14,6 +19,10 @@ class PolicyWithPDE(nn.Module):
             nn.ReLU(),
         )
 
+        #self.comm = PDECommunication_XXX(...) 切換模式
+        #self.comm = PDECommunication_NoDiffusion( 
+        #self.comm = PDECommunication_NoReaction(
+        #self.comm = PDECommunication_NoPDE(nn.Module):
         self.comm = PDECommunication(
             feature_dim=hidden_dim, 
             grid_size=8,
