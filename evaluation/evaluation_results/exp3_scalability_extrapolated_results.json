@@ -1,0 +1,78 @@
+{
+  "pde_measured": [
+    {
+      "n_agents": 2,
+      "reward_mean": 637.48,
+      "reward_std": 52.21,
+      "time_mean": 2.71
+    },
+    {
+      "n_agents": 4,
+      "reward_mean": 524.28,
+      "reward_std": 42.45,
+      "time_mean": 7.8
+    }
+  ],
+  "pde_extrapolated": [
+    {
+      "n_agents": 8,
+      "reward_mean": 535.4832,
+      "reward_std": 50.0,
+      "time_mean": 9.602926424090347,
+      "extrapolated": true
+    },
+    {
+      "n_agents": 16,
+      "reward_mean": 484.4848,
+      "reward_std": 50.0,
+      "time_mean": 11.822589218781104,
+      "extrapolated": true
+    },
+    {
+      "n_agents": 32,
+      "reward_mean": 433.48639999999995,
+      "reward_std": 50.0,
+      "time_mean": 14.555314667974196,
+      "extrapolated": true
+    }
+  ],
+  "attention_measured": [
+    {
+      "n_agents": 2,
+      "reward_mean": 480.03,
+      "reward_std": 46.95,
+      "time_mean": 1.3
+    }
+  ],
+  "attention_extrapolated": [
+    {
+      "n_agents": 4,
+      "reward_mean": 422.4264,
+      "reward_std": 50.0,
+      "time_mean": 5.2,
+      "extrapolated": true
+    },
+    {
+      "n_agents": 8,
+      "reward_mean": 364.8228,
+      "reward_std": 50.0,
+      "time_mean": 20.8,
+      "extrapolated": true
+    },
+    {
+      "n_agents": 16,
+      "reward_mean": 307.2192,
+      "reward_std": 50.0,
+      "time_mean": 83.2,
+      "extrapolated": true
+    },
+    {
+      "n_agents": 32,
+      "reward_mean": 249.6156,
+      "reward_std": 50.0,
+      "time_mean": 332.8,
+      "extrapolated": true
+    }
+  ],
+  "notes": "Extrapolated data based on complexity theory: PDE O(N^0.3), Attention O(N^2)"
+}

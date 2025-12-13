@@ -1,0 +1,18 @@
+{
+  "Full PDE": {
+    "reward_mean": 678.1440892816597,
+    "reward_std": 31.73416576611043
+  },
+  "No Diffusion": {
+    "reward_mean": 451.9117182197024,
+    "reward_std": 39.13067003257928
+  },
+  "No Reaction": {
+    "reward_mean": 486.1660587462178,
+    "reward_std": 110.73179461413528
+  },
+  "No PDE (MLP)": {
+    "reward_mean": 281.25288380705365,
+    "reward_std": 74.06304413885934
+  }
+}
