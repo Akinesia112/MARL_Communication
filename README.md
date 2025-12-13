@@ -6,5 +6,5 @@ Multi-agent reinforcement learning (MARL) is a key ingredient for scalable decis
 
 See .md files in each folder.
 
-Due to Open Review upload size limitation, we put all of the checkpoints on https://github.com/Akinesia112/MARL_Communication/tree/main
+Due to Open Review's upload size limitation, we put all of the checkpoints on https://github.com/Akinesia112/MARL_Communication/tree/main
 
